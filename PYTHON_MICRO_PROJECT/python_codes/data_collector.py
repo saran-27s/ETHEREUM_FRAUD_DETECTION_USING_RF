@@ -1,10 +1,7 @@
 import requests
 import pandas as pd
 import time
-import numpy as np
-from datetime import datetime
 from tqdm import tqdm
-import os
 
 # Etherscan API key
 ETHERSCAN_API_KEY = "848HZHG8QKCE4DIMBV7P13CDSUARHXDX4T"
@@ -375,16 +372,9 @@ def fetch_addresses_from_etherscan(n=100):
         print(f"Failed to get current block: {response.status_code}")
         return []
 
-def main():
+def get_data(wallet_addres):
     """Main function to fetch data and create wallet_data.csv"""
-    # Prompt the user for wallet addresses
-    print("Enter Ethereum wallet addresses separated by commas:")
-    user_input = input().strip()
-    addresses = [addr.strip() for addr in user_input.split(",") if addr.strip()]
-    
-    if not addresses:
-        print("No valid addresses provided. Exiting.")
-        return
+    addresses=[wallet_addres]
     
     print(f"Processing {len(addresses)} addresses...")
     
@@ -420,4 +410,4 @@ def main():
         print("No valid address data collected.")
 
 if __name__ == "__main__":
-    main()
+    get_data()

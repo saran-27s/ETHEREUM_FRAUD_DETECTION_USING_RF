@@ -3,7 +3,7 @@ import numpy as np
 import pickle
 import matplotlib.pyplot as plt
 import seaborn as sns
-
+from data_collector import get_data
 def predict_fraud(wallet_data_path='csv_files/wallet_data.csv'):
     """
     Make fraud predictions on wallet data using the pre-trained model
@@ -104,4 +104,6 @@ def predict_fraud(wallet_data_path='csv_files/wallet_data.csv'):
     return results
 
 if __name__ == "__main__":
+    wallet_address=input("Enter the wallet address to predict : ")
+    get_data(wallet_address)
     predict_fraud()
