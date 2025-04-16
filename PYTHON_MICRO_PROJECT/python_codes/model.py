@@ -62,42 +62,6 @@ plt.tight_layout()
 plt.savefig('images/correlation_heatmap.png', dpi=300)
 plt.close()
 
-# ----- 2. DISTRIBUTION OF KEY FEATURES -----
-# Select top numerical features for distribution analysis
-numerical_cols = ['Sent tnx', 'Received Tnx', 'Time Diff between first and last (Mins)', 
-                 'Avg min between sent tnx', 'Avg min between received tnx', 'total ether balance']
-
-# Plot histograms for numerical features
-plt.figure(figsize=(18, 12))
-for i, col in enumerate(numerical_cols, 1):
-    if col in df.columns:
-        plt.subplot(2, 3, i)
-        sns.histplot(data=df, x=col, hue='FLAG', kde=True, bins=30, alpha=0.7, palette=['skyblue', 'red'])
-        plt.title(f'Distribution of {col}')
-        plt.xlabel(col)
-        plt.ylabel('Count')
-        plt.legend(['Non-Fraud', 'Fraud'])
-plt.tight_layout()
-plt.savefig('images/feature_distributions.png', dpi=300)
-plt.close()
-
-# ----- 3. BOX PLOTS FOR FRAUD VS NON-FRAUD -----
-# Create box plots to compare distributions between classes
-# Select 6 important features
-important_features = ['Sent tnx', 'Received Tnx', 'Time Diff between first and last (Mins)', 
-                     'total ether balance', 'Number of Created Contracts', 'Avg min between received tnx']
-
-plt.figure(figsize=(18, 12))
-for i, feature in enumerate(important_features, 1):
-    if feature in df.columns:
-        plt.subplot(2, 3, i)
-        sns.boxplot(x='FLAG', y=feature, data=df, palette=['skyblue', 'orange'])
-        plt.title(f'{feature} by Fraud Status')
-        plt.xlabel('Fraud Flag (0=Non-Fraud, 1=Fraud)')
-        plt.ylabel(feature)
-plt.tight_layout()
-plt.savefig('images/fraud_vs_nonfraud_boxplots.png', dpi=300)
-plt.close()
 
 # Split features and target
 y = df['FLAG']
@@ -171,6 +135,18 @@ RF.fit(x_tr_resample, y_tr_resample)
 # Make predictions
 preds_RF = RF.predict(norm_test_f)
 probs_RF = RF.predict_proba(norm_test_f)[:, 1]
+
+from sklearn.metrics import accuracy_score, recall_score
+
+# Calculate metrics
+accuracy = accuracy_score(y_test, preds_RF)
+recall = recall_score(y_test, preds_RF)
+roc_auc = roc_auc_score(y_test, probs_RF)
+
+# Print metrics to console
+print(f"Accuracy Score: {accuracy:.4f}")
+print(f"Recall Score: {recall:.4f}")
+print(f"ROC AUC Score: {roc_auc:.4f}")
 
 # ----- 6. ROC CURVE VISUALIZATION -----
 plt.figure(figsize=(10, 8))

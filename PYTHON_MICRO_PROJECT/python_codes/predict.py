@@ -3,7 +3,9 @@ import numpy as np
 import pickle
 import matplotlib.pyplot as plt
 import seaborn as sns
+import os
 from data_collector import get_data
+
 def predict_fraud(wallet_data_path='csv_files/wallet_data.csv'):
     """
     Make fraud predictions on wallet data using the pre-trained model
@@ -80,7 +82,9 @@ def predict_fraud(wallet_data_path='csv_files/wallet_data.csv'):
     results = results.sort_values('Fraud_Probability', ascending=False).reset_index(drop=True)
     
     # Save results
-    results.to_csv('csv_files/fraud_predictions.csv', index=True)
+    output_file = 'csv_files/fraud_predictions.csv'
+    os.makedirs(os.path.dirname(output_file), exist_ok=True)
+    results.to_csv(output_file, index=True)
     print("Predictions saved to 'csv_files/fraud_predictions.csv'")
     
     # Display top potential fraudsters
