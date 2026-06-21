@@ -1,4 +1,4 @@
-# Detailed Summary of `model.py`
+# Detailed Summary of Project : 
 
 This notebook provides a thorough explanation of the `model.py` script, focusing on the libraries used, their purposes, and their specific applications within the code. We'll explore the key roles of **Pandas**, **NumPy**, **Scikit-learn**, and other libraries in this machine learning pipeline for fraud detection.
 
